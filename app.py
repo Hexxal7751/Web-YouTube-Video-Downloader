@@ -26,6 +26,8 @@ ENV = os.environ.get('BACKEND_ENV', '').upper()
 if ENV not in ['PRODUCTION', 'DEVELOPMENT']:
     ENV = 'DEVELOPMENT'
 
+app = Flask(__name__, static_folder='static', static_url_path='/static')
+
 # Set Flask debug mode and config based on environment
 if ENV == 'PRODUCTION':
     app.config.update(
@@ -73,7 +75,6 @@ file_handler.setFormatter(logging.Formatter(
 ))
 file_handler.setLevel(logging.INFO)
 
-app = Flask(__name__, static_folder='static', static_url_path='/static')
 app.logger.addHandler(file_handler)
 app.logger.setLevel(logging.INFO)
 app.logger.info('YouTube Downloader startup')
