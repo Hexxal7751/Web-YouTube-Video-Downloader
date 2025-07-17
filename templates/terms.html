@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Terms & Privacy - Hexxal's YT Downloader</title>
+  <link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon.png') }}"/>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"/>
+  <style>
+    :root {
+      --primary: #007bff;
+      --accent: #28a745;
+      --bg: #f0f2f5;
+      --text: #222;
+      --glass: rgba(255, 255, 255, 0.2);
+      --blur: blur(20px);
+      --shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    }
+
+    * {
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #e3f2fd, #fff);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    body.dark {
+      background: linear-gradient(135deg, #1f1f2e, #2a2a40);
+      color: #f0f0f0;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 40px;
+      background: rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+      box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
+    }
+
+    body.dark .header {
+      background: rgba(30, 30, 45, 0.8);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      text-decoration: none;
+      color: var(--text);
+    }
+
+    body.dark .logo-container {
+      color: #f0f0f0;
+    }
+
+    .logo-img {
+      width: 50px;
+      height: 50px;
+    }
+
+    .logo-text {
+      font-size: 22px;
+      font-weight: 700;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 30px;
+    }
+
+    .nav-link {
+      text-decoration: none;
+      color: var(--text);
+      font-weight: 500;
+      transition: color 0.3s ease;
+      font-size: 16px;
+    }
+
+    .nav-link:hover {
+      color: var(--primary);
+    }
+
+    body.dark .nav-link {
+      color: #f0f0f0;
+    }
+
+    .toggle-container {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+    }
+
+    .toggle-switch {
+      width: 60px;
+      height: 30px;
+      background-color: #ccc;
+      border-radius: 50px;
+      position: relative;
+      transition: background-color 0.3s ease-in-out;
+      display: flex;
+      align-items: center;
+      padding: 3px;
+      box-sizing: border-box;
+    }
+
+    .toggle-thumb {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background-color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.3s ease-in-out, left 0.3s ease-in-out;
+      position: absolute;
+      top: 3px;
+      left: 3px;
+    }
+
+    .toggle-switch.active {
+      background-color: #4CAF50;
+    }
+
+    .toggle-switch.active .toggle-thumb {
+      left: 33px;
+      transform: rotate(360deg);
+    }
+
+    .main-content {
+      max-width: 1000px;
+      margin: 40px auto;
+      padding: 40px;
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    body.dark .main-content {
+      background: rgba(30, 30, 45, 0.9);
+    }
+
+    .section {
+      margin-bottom: 40px;
+    }
+
+    h1 {
+      font-size: 32px;
+      margin-bottom: 30px;
+      color: var(--primary);
+      text-align: center;
+      position: relative;
+    }
+
+    h1::after {
+      content: '';
+      display: block;
+      width: 100px;
+      height: 4px;
+      background: var(--primary);
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      border-radius: 2px;
+    }
+
+    h2 {
+      font-size: 24px;
+      margin-top: 40px;
+      margin-bottom: 20px;
+      color: var(--primary);
+      border-bottom: 2px solid rgba(0, 123, 255, 0.2);
+      padding-bottom: 10px;
+    }
+
+    h3 {
+      font-size: 20px;
+      margin-top: 30px;
+      color: var(--text);
+    }
+
+    body.dark h3 {
+      color: #f0f0f0;
+    }
+
+    p {
+      margin-bottom: 20px;
+      font-size: 16px;
+    }
+
+    ul, ol {
+      margin-bottom: 20px;
+      padding-left: 25px;
+    }
+
+    li {
+      margin-bottom: 10px;
+    }
+
+    .footer {
+      text-align: center;
+      padding: 30px 0;
+      margin-top: 50px;
+      border-top: 1px solid rgba(0, 0, 0, 0.1);
+    }
+
+    body.dark .footer {
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      margin-top: 20px;
+    }
+
+    .footer-link {
+      text-decoration: none;
+      color: var(--text);
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+
+    .footer-link:hover {
+      color: var(--primary);
+    }
+
+    body.dark .footer-link {
+      color: #f0f0f0;
+    }
+
+    .button {
+      display: inline-block;
+      padding: 12px 24px;
+      background: var(--primary);
+      color: white;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      text-align: center;
+      box-shadow: 0 4px 10px rgba(0, 123, 255, 0.3);
+    }
+
+    .button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 15px rgba(0, 123, 255, 0.4);
+    }
+
+    .back-button {
+      display: inline-block;
+      margin-top: 30px;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 30px;
+      overflow-x: auto;
+      padding-bottom: 10px;
+    }
+
+    .tab {
+      padding: 12px 24px;
+      background: rgba(255, 255, 255, 0.5);
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      min-width: 150px;
+      text-align: center;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+
+    body.dark .tab {
+      background: rgba(40, 40, 60, 0.5);
+    }
+
+    .tab.active {
+      background: var(--primary);
+      color: white;
+      box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+    }
+
+    .tab:hover:not(.active) {
+      background: rgba(0, 123, 255, 0.1);
+    }
+
+    body.dark .tab:hover:not(.active) {
+      background: rgba(0, 123, 255, 0.2);
+    }
+
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+      animation: fadeIn 0.5s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .highlight {
+      background: rgba(0, 123, 255, 0.1);
+      padding: 15px 20px;
+      border-radius: 10px;
+      margin: 20px 0;
+    }
+
+    body.dark .highlight {
+      background: rgba(0, 123, 255, 0.15);
+    }
+
+    @media (max-width: 768px) {
+      .header {
+        flex-direction: column;
+        gap: 15px;
+        padding: 20px;
+      }
+
+      .nav-links {
+        margin-top: 15px;
+      }
+
+      .main-content {
+        padding: 25px;
+        margin: 20px 15px;
+      }
+
+      .tabs {
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .tab {
+        width: 100%;
+      }
+
+      .footer-links {
+        flex-direction: column;
+        gap: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <a href="/" class="logo-container">
+      <img src="{{ url_for('static', filename='favicon.png') }}" alt="Logo" class="logo-img">
+      <div class="logo-text">Hexxal's YT Downloader</div>
+    </a>
+
+    <div class="nav-links">
+      <a href="/" class="nav-link">Home</a>
+      <a href="/about" class="nav-link">About</a>
+    </div>
+
+    <div class="toggle-container" onclick="toggleTheme()">
+      <div class="toggle-switch" id="themeToggle">
+        <div class="toggle-thumb">
+          <span class="toggle-icon">🌞</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="main-content">
+    <section class="section">
+      <h1>Terms of Service & Privacy Policy</h1>
+
+      <div class="tabs">
+        <div class="tab active" onclick="switchTab('terms')">Terms of Service</div>
+        <div class="tab" onclick="switchTab('privacy')">Privacy Policy</div>
+      </div>
+
+      <div id="terms" class="tab-content active">
+        <p>
+          Last Updated: 20 April 2025
+        </p>
+
+        <div class="highlight">
+          <p>
+            Please read these Terms of Service ("Terms") carefully before using Hexxal's YouTube Downloader 
+            ("the Service"). By accessing or using the Service, you agree to be bound by these Terms and our 
+            Privacy Policy. If you disagree with any part of the terms, you may not access the Service.
+          </p>
+        </div>
+
+        <h2>1. Terms of Use</h2>
+
+        <h3>1.1 Service Description</h3>
+        <p>
+          Hexxal's YouTube Downloader is a web-based application that allows users to download videos from YouTube 
+          for personal, non-commercial use. The Service provides various resolution options for downloading, 
+          allowing users to choose the quality that best suits their needs.
+        </p>
+
+        <h3>1.2 Acceptance of Terms</h3>
+        <p>
+          By using our Service, you confirm that you have read, understood, and agreed to these Terms. If you are 
+          using the Service on behalf of an organization, you agree to these Terms on behalf of that organization 
+          and confirm that you have the authority to do so.
+        </p>
+
+        <h3>1.3 Changes to Terms</h3>
+        <p>
+          We reserve the right to modify these Terms at any time. We will provide notice of any significant changes 
+          by updating the "Last Updated" date at the top of these Terms. Your continued use of the Service after 
+          such modifications will constitute your acknowledgment of the modified Terms and agreement to abide by them.
+        </p>
+
+        <h2>2. Acceptable Use</h2>
+
+        <h3>2.1 Legal Compliance</h3>
+        <p>
+          You agree to use the Service only for lawful purposes and in accordance with these Terms. You are 
+          responsible for ensuring that your use of the Service complies with all applicable laws, regulations, 
+          and third-party agreements.
+        </p>
+
+        <h3>2.2 Permitted Use</h3>
+        <p>
+          The Service is intended for:
+        </p>
+        <ul>
+          <li>Downloading videos for personal, offline viewing</li>
+          <li>Educational purposes and fair use under applicable copyright laws</li>
+          <li>Downloading content you have permission to use</li>
+          <li>Downloading content that is in the public domain</li>
+        </ul>
+
+        <h3>2.3 Prohibited Use</h3>
+        <p>
+          You agree not to use the Service for:
+        </p>
+        <ul>
+          <li>Downloading copyrighted content without proper authorization</li>
+          <li>Commercial distribution or redistribution of downloaded content</li>
+          <li>Mass or automated downloading of videos</li>
+          <li>Attempting to bypass any technological measures implemented to protect content</li>
+          <li>Any use that violates YouTube's Terms of Service</li>
+          <li>Any illegal purpose or to violate any laws</li>
+          <li>Transmitting viruses, malware, or other malicious code</li>
+        </ul>
+
+        <h2>3. Intellectual Property</h2>
+
+        <h3>3.1 Our Intellectual Property</h3>
+        <p>
+          The Service and its original content (excluding content provided by users or sourced from YouTube), 
+          features, and functionality are and will remain the exclusive property of Hexxal7751 and its licensors. 
+          The Service is protected by copyright, trademark, and other intellectual property laws.
+        </p>
+
+        <h3>3.2 Third-Party Content</h3>
+        <p>
+          You acknowledge that all content accessed through the Service is the property of its respective owners and 
+          may be protected by intellectual property laws. You agree to respect all copyright and other legal notices, 
+          information, and restrictions contained in any content accessed through the Service.
+        </p>
+
+        <h2>4. Disclaimer of Warranties</h2>
+        <p>
+          The Service is provided "as is" and "as available" without warranties of any kind, either express or 
+          implied, including, but not limited to, implied warranties of merchantability, fitness for a particular 
+          purpose, non-infringement, or course of performance.
+        </p>
+        <p>
+          We do not warrant that:
+        </p>
+        <ul>
+          <li>The Service will function uninterrupted, secure, or available at any particular time or location</li>
+          <li>Any errors or defects will be corrected</li>
+          <li>The Service is free of viruses or other harmful components</li>
+          <li>The results of using the Service will meet your requirements</li>
+        </ul>
+
+        <h2>5. Limitation of Liability</h2>
+        <p>
+          In no event shall Hexxal7751, its directors, employees, partners, agents, suppliers, or affiliates be 
+          liable for any indirect, incidental, special, consequential, or punitive damages, including without 
+          limitation, loss of profits, data, use, goodwill, or other intangible losses, resulting from:
+        </p>
+        <ul>
+          <li>Your access to or use of or inability to access or use the Service</li>
+          <li>Any conduct or content of any third party on the Service</li>
+          <li>Any content obtained from the Service</li>
+          <li>Unauthorized access, use, or alteration of your transmissions or content</li>
+        </ul>
+
+        <h2>6. Indemnification</h2>
+        <p>
+          You agree to defend, indemnify, and hold harmless Hexxal7751, its directors, employees, partners, agents, 
+          suppliers, and affiliates from and against any claims, liabilities, damages, losses, and expenses, 
+          including without limitation reasonable attorney's fees, arising out of or in any way connected with:
+        </p>
+        <ul>
+          <li>Your access to or use of the Service</li>
+          <li>Your violation of these Terms</li>
+          <li>Your violation of any third-party right, including without limitation any intellectual property right, publicity, confidentiality, property, or privacy right</li>
+        </ul>
+
+        <h2>7. Contact Us</h2>
+        <p>
+          If you have any questions about these Terms, please contact us through the following discord.
+        </p>
+        <ul>
+          <li>Discord Discriminator: Hexxal#7751</li>
+          <li>Discord Username: hexxal.7751</li>
+          <li>Email: <a href="mailto:hexxal.7751@gmail.com">hexxal.7751@gmail.com</a></li>
+        </ul>
+      </div>
+
+      <div id="privacy" class="tab-content">
+        <p>
+          Last Updated: 20 April 2025
+        </p>
+
+        <div class="highlight">
+          <p>
+            At Hexxal's YouTube Downloader, we take your privacy seriously. This Privacy Policy explains how we 
+            collect, use, and protect your information when you use our Service. By using the Service, you agree 
+            to the collection and use of information in accordance with this policy.
+          </p>
+        </div>
+
+        <h2>1. Information We Collect</h2>
+
+        <h3>1.1 Information You Provide</h3>
+        <p>
+          Our Service does not require you to create an account or provide personal information. The only information 
+          we receive directly from you is:
+        </p>
+        <ul>
+          <li>YouTube URLs you input for downloading videos</li>
+          <li>Your selected video/audio resolution preferences</li>
+        </ul>
+        <p>
+          <strong>Download history is stored only in your browser (localStorage) and is never sent to our servers.</strong>
+        </p>
+
+        <h3>1.2 Automatically Collected Information</h3>
+        <p>
+          When you access our Service, we may automatically collect certain information, including:
+        </p>
+        <ul>
+          <li>
+            <strong>Technical Data:</strong> IP address, browser type, browser version, device information, operating 
+            system, and other technology identifiers on the devices you use to access the Service
+          </li>
+          <li>
+            <strong>Usage Data:</strong> Information about how you use our Service, including the videos you download, 
+            resolution preferences, and usage patterns
+          </li>
+          <li>
+            <strong>Cookies:</strong> Small pieces of data stored on your device to remember your preferences and 
+            improve your experience (e.g., dark/light mode preference)
+          </li>
+        </ul>
+
+        <h3>1.3 Temporary File Storage</h3>
+        <p>
+          When you download a video, our Service temporarily stores the video file on our servers before serving it 
+          to you. These temporary files are automatically deleted after the download is complete or after a maximum 
+          of one hour, whichever comes first. <strong>No download history or personal data is stored on our servers.</strong>
+        </p>
+
+        <h2>2. How We Use Your Information</h2>
+        <p>
+          We use the information we collect for the following purposes:
+        </p>
+        <ul>
+          <li>To provide and maintain our Service</li>
+          <li>To process video downloads and deliver content to you</li>
+          <li>To improve and optimize our Service</li>
+          <li>To monitor and analyze usage patterns and trends</li>
+          <li>To detect, prevent, and address technical issues</li>
+          <li>To remember your preferences (e.g., dark/light mode)</li>
+        </ul>
+
+        <h2>3. Data Retention</h2>
+        <p>
+          We retain your information only for as long as necessary to fulfill the purposes for which we collected it:
+        </p>
+        <ul>
+          <li>
+            <strong>YouTube URLs:</strong> Processed in real-time and not stored after the session ends
+          </li>
+          <li>
+            <strong>Download history:</strong> Stored only in your browser (localStorage) and never sent to our servers
+          </li>
+          <li>
+            <strong>Temporary video files:</strong> Automatically deleted after download completion or after a maximum 
+            of one hour
+          </li>
+          <li>
+            <strong>Technical and Usage Data:</strong> Retained in aggregate, anonymized form for analytical purposes 
+            only
+          </li>
+          <li>
+            <strong>Cookies:</strong> Stored on your device according to your browser's cookie settings
+          </li>
+        </ul>
+
+        <h2>4. Data Sharing and Third Parties</h2>
+        <p>
+          <strong>We do not collect, store, or track any personal data or download history on our servers. All download history is kept only in your browser.</strong>
+        </p>
+
+        <h3>4.1 We Do Not Sell Your Data</h3>
+        <p>
+          We do not sell, trade, or otherwise transfer your information to third parties for marketing or advertising 
+          purposes.
+        </p>
+
+        <h3>4.2 Service Providers</h3>
+        <p>
+          We may employ third-party companies and individuals to:
+        </p>
+        <ul>
+          <li>Facilitate our Service ("Service Providers")</li>
+          <li>Provide the Service on our behalf</li>
+          <li>Perform Service-related services</li>
+          <li>Assist us in analyzing how our Service is used</li>
+        </ul>
+        <p>
+          These third parties have access to your information only to perform these tasks on our behalf and are 
+          obligated not to disclose or use it for any other purpose.
+        </p>
+
+        <h2>5. Security</h2>
+        <p>
+          The security of your information is important to us, but remember that no method of transmission over the 
+          Internet or method of electronic storage is 100% secure. While we strive to use commercially acceptable 
+          means to protect your information, we cannot guarantee its absolute security.
+        </p>
+
+        <h2>6. Cookies</h2>
+        <p>
+          We use cookies to:
+        </p>
+        <ul>
+          <li>Remember your preferences (e.g., dark/light mode)</li>
+          <li>Understand and save your preferences for future visits</li>
+          <li>Compile aggregate data about site traffic and site interactions</li>
+        </ul>
+        <p>
+          You can instruct your browser to refuse all cookies or to indicate when a cookie is being sent. However, 
+          if you do not accept cookies, you may not be able to use some portions of our Service.
+        </p>
+
+        <h2>7. Changes to This Privacy Policy</h2>
+        <p>
+          We may update our Privacy Policy from time to time. We will notify you of any changes by posting the new 
+          Privacy Policy on this page and updating the "Last Updated" date at the top of this page.
+        </p>
+        <p>
+          You are advised to review this Privacy Policy periodically for any changes. Changes to this Privacy Policy 
+          are effective when they are posted on this page.
+        </p>
+
+        <h2>8. Contact Us</h2>
+        <p>
+          If you have any questions about this Privacy Policy, please contact us through the following discord.
+        </p>
+        <ul>
+          <li>Discord Discriminator: Hexxal#7751</li>
+          <li>Discord Username: hexxal.7751</li>
+          <li>Email: <a href="mailto:hexxal.7751@gmail.com">hexxal.7751@gmail.com</a></li>
+        </ul>
+      </div>
+    </section>
+
+    <a href="/" class="button back-button">Back to Downloader</a>
+  </div>
+
+  <footer class="footer">
+    <p>© 2025 Hexxal's YouTube Downloader. All rights reserved.</p>
+    <div class="footer-links">
+      <a href="/" class="footer-link">Home</a>
+      <a href="/about" class="footer-link">About</a>
+      <a href="/terms" class="footer-link">Terms & Privacy</a>
+    </div>
+  </footer>
+
+  <script>
+    // Theme persistence and application on all pages
+    function applyThemeFromStorage() {
+      const darkMode = localStorage.getItem('darkMode') === 'true';
+      const body = document.body;
+      const toggle = document.getElementById('themeToggle');
+      const icon = toggle.querySelector('.toggle-icon');
+      if (darkMode) {
+        body.classList.add('dark');
+        toggle.classList.add('active');
+        icon.textContent = '🌙';
+      } else {
+        body.classList.remove('dark');
+        toggle.classList.remove('active');
+        icon.textContent = '🌞';
+      }
+    }
+    document.addEventListener('DOMContentLoaded', applyThemeFromStorage);
+
+    // Theme toggle functionality
+    function toggleTheme() {
+      const toggle = document.getElementById('themeToggle');
+      const icon = toggle.querySelector('.toggle-icon');
+      const body = document.body;
+
+      body.classList.toggle('dark');
+      toggle.classList.toggle('active');
+
+      // Update localStorage and icon
+      if (body.classList.contains('dark')) {
+        localStorage.setItem('darkMode', 'true');
+        icon.textContent = '🌙';
+      } else {
+        localStorage.setItem('darkMode', 'false');
+        icon.textContent = '🌞';
+      }
+    }
+
+    // Tab switching functionality
+    function switchTab(tabId) {
+      // Update tab buttons
+      document.querySelectorAll('.tab').forEach(tab => {
+        tab.classList.remove('active');
+      });
+      document.querySelector(`.tab[onclick="switchTab('${tabId}')"]`).classList.add('active');
+      
+      // Update tab contents
+      document.querySelectorAll('.tab-content').forEach(content => {
+        content.classList.remove('active');
+      });
+      document.getElementById(tabId).classList.add('active');
+    }
+  </script>
+</body>
+</html> 
