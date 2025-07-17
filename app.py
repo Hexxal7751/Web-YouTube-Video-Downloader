@@ -80,7 +80,7 @@ app.logger.info('YouTube Downloader startup')
 
 # CORS: allow only frontend origin in production
 if os.environ.get('FLASK_ENV') == 'production':
-    CORS(app, origins=["localhost:10000"])  # Set your domain
+    CORS(app, origins=["https://youtubevideodownloader7751.onrender.com"])  # Set your domain
 else:
     CORS(app)
 
